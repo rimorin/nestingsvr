@@ -3,6 +3,7 @@ import { ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize';
 import { initModels, models, orders, users } from './../models/init-models';
 import { HelpersService } from './helpers/helpers.service';
+import { ScheduleService } from './schedule/schedule.service';
 
 export interface UsersResult {
   results: users[];
@@ -18,7 +19,10 @@ export interface OrdersResult {
 export class AppService {
   private models: models;
 
-  constructor(private configService: ConfigService, private helperService: HelpersService) {
+  constructor(
+    private configService: ConfigService,
+    private helperService: HelpersService,
+  ) {
     const dbHost = this.configService.get<string>('DB_HOST', 'localhost');
     const dbPort = this.configService.get<number>('DB_PORT', 5432);
     const dbUser = this.configService.get<string>('DB_USER', 'postgres');
