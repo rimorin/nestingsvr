@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+echo '🏗️👷 Styling, testing and building your project before committing'
+
+npm test || ( 
+    echo '🚨🚨🚨 Tests failed, commit aborted'
+    false;
+)
+
+npm run lint || ( 
+    echo '🚨🚨🚨 Linting failed, commit aborted'
+    false;
+)
+
+npm run build || ( 
+    echo '🚨🚨🚨 Build failed, commit aborted'
+    false;
+)
+
+npm run lint-staged

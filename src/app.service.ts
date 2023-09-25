@@ -3,7 +3,6 @@ import { ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize';
 import { initModels, models, orders, users } from './../models/init-models';
 import { HelpersService } from './helpers/helpers.service';
-import { ScheduleService } from './schedule/schedule.service';
 
 export interface UsersResult {
   results: users[];
