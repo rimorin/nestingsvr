@@ -3,10 +3,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
 import { PaginationMiddleware } from './middleware/pagination.middleware';
-// configure the sequelize module for the database connection to postgres
+import { HelpersModule } from './helpers/helpers.module';
 
 @Module({
-  imports: [ConfigModule.forRoot()],
+  imports: [ConfigModule.forRoot(), HelpersModule],
   controllers: [AppController],
   providers: [AppService],
 })
