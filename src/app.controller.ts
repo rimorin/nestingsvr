@@ -23,7 +23,6 @@ export class AppController {
     @Query('page') page?,
     @Query('pageSize') pageSize?,
   ): Promise<UsersResult> {
-    console.log(`getUsers(${page}, ${pageSize})`);
     return this.appService.getUsers(page, pageSize);
   }
 }

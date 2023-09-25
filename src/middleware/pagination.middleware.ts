@@ -46,7 +46,6 @@ export class PaginationMiddleware implements NestMiddleware {
       req.query.pageSize = pageSize ? pageSize : '10';
       next();
     } catch (error) {
-      console.log(`Middleware error: ${error}`);
       next(error);
     }
 
