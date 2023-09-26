@@ -3,6 +3,9 @@ import { ConfigService } from '@nestjs/config';
 import { Sequelize } from 'sequelize';
 import { initModels, models, orders, users } from './../models/init-models';
 import { HelpersService } from './helpers/helpers.service';
+import { InjectQueue } from '@nestjs/bull';
+import { Queue } from 'bull';
+import { QUEUE_NAME, QUEUE_TASK_NAME } from './app.constants';
 
 export interface UsersResult {
   results: users[];
@@ -21,6 +24,7 @@ export class AppService {
   constructor(
     private configService: ConfigService,
     private helperService: HelpersService,
+    @InjectQueue(QUEUE_NAME) private messageQueue: Queue,
   ) {
     const dbHost = this.configService.get<string>('DB_HOST', 'localhost');
     const dbPort = this.configService.get<number>('DB_PORT', 5432);
@@ -36,6 +40,14 @@ export class AppService {
         dialect: 'postgres',
       }),
     );
+  }
+
+  async setQueue(data): Promise<string> {
+    const result = await this.messageQueue.add(QUEUE_TASK_NAME, {
+      time: new Date().toLocaleTimeString(),
+      value: data,
+    });
+    return result.data;
   }
 
   async getOrders(page, pageSize): Promise<OrdersResult> {

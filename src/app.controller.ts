@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Post, Body } from '@nestjs/common';
 import { AppService, OrdersResult, UsersResult } from './app.service';
 
 @Controller()
@@ -24,5 +24,10 @@ export class AppController {
     @Query('pageSize') pageSize?,
   ): Promise<UsersResult> {
     return this.appService.getUsers(page, pageSize);
+  }
+
+  @Post('/queue')
+  setQueue(@Body('data') data): Promise<string> {
+    return this.appService.setQueue(data);
   }
 }
